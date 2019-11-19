@@ -1,25 +1,14 @@
 const express = require('express');
 const path = require('path');
-const { Pool } = require('pg');
+const {
+  Pool
+} = require('pg');
 const PORT = process.env.PORT || 5000;
-const connectionString = process.env.DATABASE_URL = "postgres://tzjtpcrsgscsnp:8d8ea39c7cca47ddadddf4ff15f51e8ce43bb5c4b785da0e99177a06d3056eae@ec2-54-221-214-3.compute-1.amazonaws.com:5432/dc6t92cvpmm3lh?ssl=true";
+const connectionString = process.env.DATABASE_URL || "postgres://tzjtpcrsgscsnp:8d8ea39c7cca47ddadddf4ff15f51e8ce43bb5c4b785da0e99177a06d3056eae@ec2-54-221-214-3.compute-1.amazonaws.com:5432/dc6t92cvpmm3lh?ssl=true";
 const pool = new Pool({
   connectionString: connectionString
 });
 
-var sql = "SELECT * FROM test";
-
-pool.query(sql, function (err, result) {
-  // If an error occurred...
-  if (err) {
-    console.log("Error in query: ")
-    console.log(err);
-  }
-
-  // Log this to the console for debugging purposes.
-  console.log("Back from DB with result:");
-  console.log(result.rows);
-});
 
 
 express()
@@ -37,6 +26,20 @@ express()
       result: result.toString()
     });
     res.end();
+  })
+  .get("/getPerson", (req, res) => {
+    res.header("Content-Type", "application/json");
+
+    let id = req.query.id;
+    console.log(id);
+    let sql = "SELECT (first_name, last_name, birth_date) FROM users WHERE id=$1";
+    pool.query(sql, [id], (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      res.send(result.rows);
+    });
   })
   .get('/math_service', (req, res) => {
     let operand1 = parseInt(req.query.num1);
