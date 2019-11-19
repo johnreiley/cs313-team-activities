@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
@@ -54,42 +54,4 @@ function math(operand1, operand2, operator) {
 
     return result;
 }
-=======
-const app = require('express')
-const path = require('path')
-const PORT = process.env.PORT || 5000
-const gameEngine = require('./public/scripts/gameEngine.js');
-const rateCalc = require('./public/scripts/rate-calc.js');
-const {
-  Pool
-} = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
-});
 
-app()
-  .use(app.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.sendFile('w09-assign.html', {
-    root: __dirname + "/public"
-  }))
-  .get('/game', gameEngine.playGame)
-  .get('/db', async (req, res) => {
-    try {
-      const client = await pool.connect()
-      const result = await client.query('SELECT * FROM test_table');
-      const results = {
-        'results': (result) ? result.rows : null
-      };
-      res.render('pages/db', results);
-      client.release();
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-  })
-  .get('/getRates', rateCalc.getRates)
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
->>>>>>> 407575f56b6ba19f65b661bd63097b1499b77fcc
