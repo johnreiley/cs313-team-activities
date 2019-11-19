@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input name="num1" id="num1" type="number" placeholder="number">
+    <select id="operator" name="oper">
+        <option name="add" value="add">+</option>
+        <option name="subtract" value="subtract">-</option>
+        <option name="multiply" value="multiply">*</option>
+        <option name="divide" value="divide">/</option>
+    </select>
+    <input name="num2" id="num2" type="number" placeholder="number">
+    <input id="submit-btn" type="button" value="Submit">
+    <br>
+    <div id="result"></div>
+
+</body>
+<script>
+    async function math() {
+        let num1 = document.getElementById("num1").value;
+        let num2 = document.getElementById("num2").value;
+        let oper = document.getElementById("operator").value;
+
+        let response = await fetch(`/math_service?num1=${ num1 }&oper=${ oper }&num2=${ num2 }`);
+        let json = await response.json();
+
+        document.querySelector('#result').innerText = json.result;
+    }
+
+    let submitBtn = document.querySelector('#submit-btn');
+    submitBtn.addEventListener('click', math);
+</script>   
+
+</html>

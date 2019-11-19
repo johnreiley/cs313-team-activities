@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <title>Postal Rate Calc</title>
+</head>
+<style>
+    #form-result {
+        animation: fadein-up 0.5s;
+    }
+
+    @keyframes fadein-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
+</style>
+
+<body>
+
+    <div class="content">
+
+            <div id="rate-form" class="section half">
+                <h2>Postal Rate Calculator</h2>
+                <form>
+                    <input type="number" name="weight" id="postal-weight" placeholder="Weight (oz.)" required>
+                    <div class="break"></div>
+                    <select name="type" id="postal-type" required>
+                        <option selected disabled value="0">Postal Type</option>
+                        <option value="1">Letter (Stamped)</option>
+                        <option value="2">Letter (Metered)</option>
+                        <option value="3">Large Envelope (Flat)</option>
+                        <option value="4">First-Class Package Service—Retail</option>
+                    </select>
+                    <div class="break"></div>
+                    <div id="warn-txt" style="color: var(--red);"></div>
+                    <div class="break"></div>
+                </form>
+                <input id="submit-btn" type="button" class="btn btn-primary" value="Submit">
+            </div>
+
+            <div id="form-result" class="section half"></div>
+
+
+    </div>
+    <script src="scripts/form-handler.js"></script>
+</body>
+
+</html>
