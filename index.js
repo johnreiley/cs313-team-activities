@@ -9,8 +9,6 @@ const pool = new Pool({
   connectionString: connectionString
 });
 
-
-
 express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
@@ -32,7 +30,7 @@ express()
 
     let id = req.query.id;
     console.log(id);
-    let sql = "SELECT (first_name, last_name, birth_date) FROM users WHERE id=$1";
+    let sql = "SELECT (first_name, last_name, birth_date) FROM person WHERE id=$1";
     pool.query(sql, [id], (err, result) => {
       if (err) {
         console.log(err);

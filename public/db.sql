@@ -1,4 +1,7 @@
-CREATE TABLE users
+drop table relationships;
+drop table person; 
+
+CREATE TABLE person
 ( id            SERIAL      PRIMARY KEY
 , first_name    VARCHAR(60) NOT NULL
 , last_name     VARCHAR(60) NOT NULL
@@ -7,16 +10,16 @@ CREATE TABLE users
 
 CREATE TABLE relationships
 ( id            SERIAL      PRIMARY KEY
-, child_id      INTEGER     REFERENCES users(id)
-, father_id     INTEGER     REFERENCES users(id)
-, mother_id     INTEGER     REFERENCES users(id)
+, child_id      INTEGER     REFERENCES person(id)
+, father_id     INTEGER     REFERENCES person(id)
+, mother_id     INTEGER     REFERENCES person(id)
 );
 
 --THE SMITH FAMILY--
 --MOM: Martha
 --DAD: George
 --CHILD: Maria
-INSERT INTO users (
+INSERT INTO person (
  first_name
 , last_name
 , birth_date)
@@ -25,7 +28,7 @@ VALUES  (
 , 'Smith'
 , '2000-01-01');
 
-INSERT INTO users (
+INSERT INTO person (
  first_name
 , last_name
 , birth_date)
@@ -34,7 +37,7 @@ VALUES  (
 , 'Smith'
 , '1970-02-01');
 
-INSERT INTO users (
+INSERT INTO person (
  first_name
 , last_name
 , birth_date)
