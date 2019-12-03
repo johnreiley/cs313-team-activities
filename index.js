@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const {
   Pool
@@ -8,21 +9,43 @@ const connectionString = process.env.DATABASE_URL || "postgres://tzjtpcrsgscsnp:
 const pool = new Pool({
   connectionString: connectionString
 });
+const 
 
 express()
+  .use(session({}))
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .get('/getServerTime', (req, res) => {
-    
+
   })
   .post('/login', (req, res) => {
+    if (req.params.username && req.params.password) {
+      const username = req.params.username;
+      const password = req.params.password;
+      console.log(`Username: ${username} -- Password: ${password}`);
 
+      if (username === "admin" && password === "password") {
+        res.status(200);
+        res.send({success: true});
+        if (typeof req.session.username === "undefine") {
+          req.session.username = username;
+        }
+      } else {
+        res.status(401);
+        res.send({success: false});
+      }
+    }
+    else {
+      res.status(401);
+      res.send({success: false})
+    }
   })
   .post('/logout', (req, res) => {
 
   })
+  //////////////////////////////////////////////////////////////////////////////////////
   .get('/math', (req, res) => {
     let operand1 = parseInt(req.query.num1);
     let operand2 = parseInt(req.query.num2);
