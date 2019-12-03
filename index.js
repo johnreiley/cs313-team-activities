@@ -9,7 +9,7 @@ const connectionString = process.env.DATABASE_URL || "postgres://tzjtpcrsgscsnp:
 const pool = new Pool({
   connectionString: connectionString
 });
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 
 express()
   .use(session({}))
@@ -18,7 +18,13 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .get('/getServerTime', (req, res) => {
-      
+    var success = true;
+    var time = new Date();
+
+    function logRequest() {
+      console.log("Received a request for: " + request.url);
+    };
+
   })
   .post('/login', (req, res) => {
     if (req.params.username && req.params.password) {
@@ -28,25 +34,33 @@ express()
 
       if (username === "admin" && password === "password") {
         res.status(200);
-        res.send({success: true});
+        res.send({
+          success: true
+        });
         if (typeof req.session.username === "undefine") {
           req.session.username = username;
         }
       } else {
         res.status(401);
-        res.send({success: false});
+        res.send({
+          success: false
+        });
       }
-    }
-    else {
+    } else {
       res.status(401);
-      res.send({success: false})
+      res.send({
+        success: false
+      })
     }
   })
   .post('/logout', (req, res) => {
     if (req.session.username) {
-
+      req.session.destroy();
+      res.status(200);
+      res.send({success: true});
     } else {
-      
+      res.status(401);
+      res.send({success: false});
     }
   })
   //////////////////////////////////////////////////////////////////////////////////////
@@ -115,24 +129,22 @@ function math(operand1, operand2, operator) {
   return result;
 }
 
-function hash(plainText) {
-  bcrypt.hash(plainText, 10, function(err, hash) {
-    if (err) {
-      return false;
-    }
-    else {
-      return hash;
-    }
-  });
-}
+// function hashPasswords(plainText) {
+//   bcrypt.hash(plainText, 10, (err, hash) => {
+//     if (err) {
+//       return false; // Something went wrong
+//     } else {
+//       return hash;  // Return hashed password
+//     }
+//   });
+// }
 
-function compare(hashed, plainText) {
-  bcrypt.compare(plainText, hashed, (err, res) => {
-    if (err) {
-      return false;
-    }
-    else {
-      return res;
-    }
-  });
-}
+// function comparePasswords(hashed, plainText) {
+//   bcrypt.compare(plainText, hashed, (err, res) => {
+//     if (err || !res) {
+//       return false; // Passwords do not match
+//     } else {
+//       return true;  // Passwords match
+//     }
+//   });
+// }
