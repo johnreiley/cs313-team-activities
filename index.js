@@ -21,9 +21,7 @@ express()
     var success = true;
     var time = new Date();
 
-    function logRequest() {
-      console.log("Received a request for: " + request.url);
-    };
+    logRequest();
 
   })
   .post('/login', (req, res) => {
@@ -128,6 +126,10 @@ function math(operand1, operand2, operator) {
 
   return result;
 }
+
+function logRequest() {
+  console.log("Received a request for: " + request.url);
+};
 
 // function hashPasswords(plainText) {
 //   bcrypt.hash(plainText, 10, (err, hash) => {
