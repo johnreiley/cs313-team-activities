@@ -12,7 +12,7 @@ const pool = new Pool({
 // const bcrypt = require("bcrypt");
 
 express()
-  .use(session({secret: process.env.sessionSecretKey}))
+  .use(session({secret: "free_money!", resave: true, saveUninitialized: true}))
   .use(express.static(path.join(__dirname, 'public')))
   .use(logRequest)
   .use(verifyLogin)
@@ -34,7 +34,7 @@ express()
         res.send({
           success: true
         });
-        if (typeof req.session.username === "undefine") {
+        if (typeof req.session.username === "undefined") {
           req.session.username = username;
         }
       } else {
