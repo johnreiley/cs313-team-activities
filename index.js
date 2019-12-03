@@ -127,9 +127,10 @@ function math(operand1, operand2, operator) {
 }
 
 function logRequest(req, res, next) {
-  console.log("Received a request for: " + request.url);
+  console.log("Received a request for: " + req.url);
   next();
 }
+
 
 function verifyLogin(req, res, next) {
   if (req.session.username) {
