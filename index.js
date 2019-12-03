@@ -18,7 +18,7 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .get('/getServerTime', (req, res) => {
-
+      
   })
   .post('/login', (req, res) => {
     if (req.params.username && req.params.password) {
@@ -116,15 +116,23 @@ function math(operand1, operand2, operator) {
 }
 
 function hash(plainText) {
-  bcrypt.hash(plainText, null, null, (err, hash) => {
+  bcrypt.hash(plainText, 10, function(err, hash) {
     if (err) {
       return false;
     }
-
-    return hash;
+    else {
+      return hash;
+    }
   });
 }
 
 function compare(hashed, plainText) {
-  
+  bcrypt.compare(plainText, hashed, (err, res) => {
+    if (err) {
+      return false;
+    }
+    else {
+      return res;
+    }
+  });
 }
