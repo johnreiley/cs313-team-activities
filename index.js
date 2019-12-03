@@ -9,7 +9,7 @@ const connectionString = process.env.DATABASE_URL || "postgres://tzjtpcrsgscsnp:
 const pool = new Pool({
   connectionString: connectionString
 });
-const 
+const bcrypt = require("bcrypt");
 
 express()
   .use(session({}))
@@ -43,7 +43,11 @@ express()
     }
   })
   .post('/logout', (req, res) => {
+    if (req.session.username) {
 
+    } else {
+      
+    }
   })
   //////////////////////////////////////////////////////////////////////////////////////
   .get('/math', (req, res) => {
@@ -109,4 +113,18 @@ function math(operand1, operand2, operator) {
   }
 
   return result;
+}
+
+function hash(plainText) {
+  bcrypt.hash(plainText, null, null, (err, hash) => {
+    if (err) {
+      return false;
+    }
+
+    return hash;
+  });
+}
+
+function compare(hashed, plainText) {
+  
 }

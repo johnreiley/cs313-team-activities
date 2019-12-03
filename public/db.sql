@@ -5,7 +5,9 @@ CREATE TABLE users
 , username  VARCHAR(24) NOT NULL
 , pass_word VARCHAR(50) NOT NULL);
 
-INSERT INTO users VALUES('', );
+INSERT INTO users VALUES('admin', 'secret');
+INSERT INTO users VALUES('notadmin', '!secret');
+
 
 ----------------------------------------------------------------------------------------
 -- drop table relationships;
