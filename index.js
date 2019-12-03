@@ -12,17 +12,16 @@ const pool = new Pool({
 // const bcrypt = require("bcrypt");
 
 express()
-  .use(session({}))
+  .use(session({secret: process.env.sessionSecretKey}))
   .use(express.static(path.join(__dirname, 'public')))
+  .use(logRequest)
+  .use(verifyLogin)
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .get('/getServerTime', (req, res) => {
     var success = true;
     var time = new Date();
-
-    logRequest();
-
   })
   .post('/login', (req, res) => {
     if (req.params.username && req.params.password) {
@@ -127,9 +126,19 @@ function math(operand1, operand2, operator) {
   return result;
 }
 
-function logRequest() {
+function logRequest(req, res, next) {
   console.log("Received a request for: " + request.url);
-};
+  next();
+}
+
+function verifyLogin(req, res, next) {
+  if (req.session.username) {
+    next();
+  } else {
+    res.status(401);
+    res.send({message: "Yo foo! Login first!"})
+  }
+}
 
 // function hashPasswords(plainText) {
 //   bcrypt.hash(plainText, 10, (err, hash) => {
