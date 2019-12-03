@@ -14,6 +14,15 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
+  .get('/getServerTime', (req, res) => {
+    
+  })
+  .post('/login', (req, res) => {
+
+  })
+  .post('/logout', (req, res) => {
+
+  })
   .get('/math', (req, res) => {
     let operand1 = parseInt(req.query.num1);
     let operand2 = parseInt(req.query.num2);
